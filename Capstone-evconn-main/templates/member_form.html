@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% set title = "Edit Anggota" %}
+{% set favicon = url_for('static', filename='icons/dashboard.svg') %}
+
+{% block content %}
+<section class="edit-layout">
+  <div class="panel edit-panel">
+    <p class="eyebrow">Edit anggota</p>
+    <h1>{{ member.name }}</h1>
+    <form class="form-stack" method="post">
+      {% include "partials/member_fields.html" %}
+      <div class="inline-actions">
+        <button class="button button-primary" type="submit">Simpan perubahan</button>
+        <a class="button button-ghost" href="{{ url_for('dashboard') }}">Batal</a>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}

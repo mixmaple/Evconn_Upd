@@ -1,0 +1,32 @@
+<label>
+  Nama
+  <input type="text" name="name" value="{{ member.name if member else '' }}" required>
+</label>
+<label>
+  Peran
+  <input type="text" name="role" value="{{ member.role if member else '' }}" required>
+</label>
+<label>
+  Lokasi
+  <input type="text" name="location" value="{{ member.location if member else '' }}" required>
+</label>
+<label>
+  Keahlian
+  <input type="text" name="skill" value="{{ member.skill if member else '' }}" required>
+</label>
+<label>
+  Bio
+  <textarea name="bio" rows="4" required>{{ member.bio if member else '' }}</textarea>
+</label>
+<label>
+  URL foto
+  <input type="url" name="image_url" value="{{ member.image_url if member else '' }}" placeholder="https://..." required>
+</label>
+<label>
+  Urutan tampil
+  <input type="number" name="display_order" value="{{ member.display_order if member else 0 }}" min="0" required>
+</label>
+<label class="check-row">
+  <input type="checkbox" name="is_featured" {% if member and member.is_featured %}checked{% endif %}>
+  Tampilkan sebagai anggota unggulan
+</label>

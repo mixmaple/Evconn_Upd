@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% set title = "Dashboard" %}
+{% set favicon = url_for('static', filename='icons/dashboard.svg') %}
+
+{% block content %}
+<section class="dashboard-shell">
+  <div class="dashboard-header">
+    <div>
+      <p class="eyebrow">Dashboard</p>
+      <h1>Kelola tampilan home</h1>
+    </div>
+    <form method="post" action="{{ url_for('logout') }}">
+      <button class="button button-ghost" type="submit">Logout</button>
+    </form>
+  </div>
+
+  <div class="dashboard-grid">
+    <section class="panel">
+      <h2>Konten utama</h2>
+      <form class="form-stack" method="post" action="{{ url_for('update_content') }}">
+        <label>
+          Judul
+          <input type="text" name="title" value="{{ content.title }}" required>
+        </label>
+        <label>
+          Subjudul
+          <input type="text" name="subtitle" value="{{ content.subtitle }}" required>
+        </label>
+        <label>
+          Deskripsi
+          <textarea name="description" rows="5" required>{{ content.description }}</textarea>
+        </label>
+        <label>
+          Teks tombol utama
+          <input type="text" name="primary_cta" value="{{ content.primary_cta }}" required>
+        </label>
+        <label>
+          Highlight
+          <input type="text" name="highlight_text" value="{{ content.highlight_text }}" required>
+        </label>
+        <button class="button button-primary" type="submit">Simpan konten</button>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>Tambah anggota</h2>
+      <form class="form-stack" method="post" action="{{ url_for('create_member') }}">
+        {% include "partials/member_fields.html" %}
+        <button class="button button-primary" type="submit">Tambah anggota</button>
+      </form>
+    </section>
+  </div>
+
+  <section class="panel member-table-panel">
+    <div class="panel-heading">
+      <h2>Data anggota</h2>
+      <span>{{ members|length }} data</span>
+    </div>
+    <div class="member-table">
+      {% for member in members %}
+        <article class="member-row">
+          <img src="{{ member.image_url }}" alt="Foto {{ member.name }}">
+          <div>
+            <strong>{{ member.name }}</strong>
+            <span>{{ member.role }} - {{ member.location }}</span>
+          </div>
+          <span class="order-pill">Urutan {{ member.display_order }}</span>
+          <div class="row-actions">
+            <a class="button button-small" href="{{ url_for('edit_member', member_id=member.id) }}">Edit</a>
+            <form method="post" action="{{ url_for('delete_member', member_id=member.id) }}">
+              <button class="button button-small button-danger" type="submit">Hapus</button>
+            </form>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </section>
+</section>
+{% endblock %}

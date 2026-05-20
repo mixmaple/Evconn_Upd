@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title or "Rekru Profile" }}</title>
+    <link rel="icon" type="image/svg+xml" href="{{ favicon or url_for('static', filename='icons/home.svg') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="{{ url_for('home') }}">
+        <span class="brand-mark">EC</span>
+        <span>EvConn XI</span>
+      </a>
+      <nav class="nav-links" aria-label="Navigasi utama">
+        <a href="{{ url_for('home') }}">Home</a>
+      </nav>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-wrap">
+          {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+      <span>Copyright &copy; EvConn Laboratory 2026</span>
+    </footer>
+
+    <script>
+      window.setTimeout(() => {
+        document.querySelectorAll(".flash").forEach((flash) => {
+          flash.classList.add("flash-hide");
+          window.setTimeout(() => flash.remove(), 350);
+        });
+      }, 4000);
+
+      document.querySelectorAll("[data-password-toggle]").forEach((button) => {
+        const input = button.parentElement.querySelector("input");
+        button.addEventListener("click", () => {
+          const isHidden = input.type === "password";
+          input.type = isHidden ? "text" : "password";
+          button.setAttribute("aria-pressed", String(isHidden));
+          button.setAttribute(
+            "aria-label",
+            isHidden ? "Sembunyikan password" : "Tampilkan password"
+          );
+        });
+      });
+    </script>
+  </body>
+</html>

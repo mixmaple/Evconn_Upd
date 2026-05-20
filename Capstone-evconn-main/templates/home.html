@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% set title = "Profile Kelompok" %}
+{% set favicon = url_for('static', filename='icons/home.svg') %}
+
+{% block content %}
+<section class="hero" id="anggota">
+  <div class="hero-copy">
+    <p class="eyebrow">{{ content.highlight_text }}</p>
+    <h1>{{ content.title }}</h1>
+    <p class="hero-subtitle">{{ content.subtitle }}</p>
+    <p class="hero-description">{{ content.description }}</p>
+    <div class="hero-actions">
+      <a class="button button-primary" href="#members">{{ content.primary_cta }}</a>
+    </div>
+  </div>
+  <div class="hero-collage" aria-label="Foto anggota unggulan">
+    {% for member in featured[:2] %}
+      <article class="spotlight-card">
+        <img src="{{ member.image_url }}" alt="Foto {{ member.name }}">
+        <div>
+          <span>{{ member.role }}</span>
+          <strong>{{ member.name }}</strong>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="stats-band" aria-label="Ringkasan kelompok">
+  <div>
+    <strong>{{ members|length }}</strong>
+    <span>Total anggota</span>
+  </div>
+  <div>
+    <strong>{{ featured|length }}</strong>
+    <span>Anggota unggulan</span>
+  </div>
+  <div>
+    <strong>{{ members|map(attribute='location')|unique|list|length }}</strong>
+    <span>Kota terwakili</span>
+  </div>
+</section>
+
+<section class="section" id="members">
+  <div class="section-heading">
+    <p class="eyebrow">Team directory</p>
+    <h2>Anggota kelompok</h2>
+  </div>
+  <div class="member-grid">
+    {% for member in members %}
+      <article class="member-card">
+        <div class="member-photo">
+          <img src="{{ member.image_url }}" alt="Foto {{ member.name }}">
+          {% if member.is_featured %}
+            <span class="badge">Unggulan</span>
+          {% endif %}
+        </div>
+        <div class="member-body">
+          <span class="member-role">{{ member.role }}</span>
+          <h3>{{ member.name }}</h3>
+          <p>{{ member.bio }}</p>
+          <div class="meta-list">
+            <span>{{ member.location }}</span>
+            <span>{{ member.skill }}</span>
+          </div>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}
