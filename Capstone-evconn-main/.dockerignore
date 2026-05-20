@@ -1,0 +1,9 @@
+.git
+.codex
+.agents
+__pycache__
+*.pyc
+.venv
+venv
+instance
+.env
